@@ -30,7 +30,7 @@ def show_pie_chart(probs, labels, prediction):
     )
 
     plt.setp(autotexts, size=13, weight="bold")
-    ax.set_title(f"🎧 Ruh Hali Tahmini: {prediction}", fontsize=16, weight="bold")
+    ax.set_title(f"🎧 Ruh Hali: {prediction}", fontsize=16, weight="bold")
     ax.axis('equal')
     st.pyplot(fig)
 
@@ -40,27 +40,7 @@ st.markdown("<h2 style='color:#4B8BBE;'>📺 YouTube Linkiyle Ruh Hali Analizi</
 
 with st.form(key="youtube_form"):
     youtube_link = st.text_input("🎬 Lütfen analiz etmek istediğiniz YouTube video linkini girin:")
-    submit_button = st.form_submit_button(
-        label="Tahmin Et",
-        help="YouTube'dan ses indirilecek ve ruh hali tahmini yapılacaktır."
-    )
-    st.markdown("""
-        <style>
-        div.stButton > button:first-child {
-            background-color: #4B8BBE;
-            color: white;
-            padding: 0.5em 1em;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            transition: 0.3s ease-in-out;
-        }
-        div.stButton > button:first-child:hover {
-            background-color: #306998;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    submit_button = st.form_submit_button(label="🎯 Tahmini Başlat")
 
 if submit_button and youtube_link:
     try:
@@ -75,6 +55,9 @@ if submit_button and youtube_link:
 
             st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
             show_pie_chart(probs, labels, prediction)
+
+            if max(probs) < 0.6:
+                st.warning("⚠️ Bu tahminin güvenirliği düşük olabilir. Farklı bir şarkı deneyin.")
         else:
             st.error("❌ Önce modeli eğitmelisiniz!")
     except Exception as e:
