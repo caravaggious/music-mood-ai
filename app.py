@@ -105,13 +105,3 @@ if submit_button and youtube_link:
 #         show_pie_chart(probs, labels, prediction)
 #     else:
 #         st.error("❌ Önce modeli eğitmelisiniz!")
-
-# ℹ️ Hakkında bölümü
-st.markdown("""
-    <div class='about-section'>
-        <hr>
-        <p><strong>📌 Bu proje</strong>, bir müzik parçasının ses özelliklerinden yola çıkarak ruh halini tahmin eden bir yapay zeka uygulamasıdır. 
-        Kullanıcılar yalnızca bir YouTube video linki paylaşarak analiz yaptırabilir. Sistem, videodan sesi otomatik indirir, analiz eder ve 
-        şarkının <em>mutlu</em>, <em>üzgün</em>, <em>enerjik</em> veya <em>sakin</em> gibi kategorilerden hangisine ait olduğunu tahmin eder.</p>
-    </div>
-""", unsafe_allow_html=True)
