@@ -64,19 +64,20 @@ with st.form(key="youtube_form"):
 
 if submit_button and youtube_link:
     try:
-        wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
-        features = extract_features(wav_path)
+        with st.spinner("🔄 YouTube’dan ses indiriliyor ve analiz ediliyor..."):
+            wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
+            features = extract_features(wav_path)
 
-        if os.path.exists("mood_model.pkl"):
-            model = joblib.load("mood_model.pkl")
-            prediction = model.predict([features])[0]
-            probs = model.predict_proba([features])[0]
-            labels = model.classes_
+            if os.path.exists("mood_model.pkl"):
+                model = joblib.load("mood_model.pkl")
+                prediction = model.predict([features])[0]
+                probs = model.predict_proba([features])[0]
+                labels = model.classes_
 
-            st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
-            show_pie_chart(probs, labels, prediction)
-        else:
-            st.error("❌ Önce modeli eğitmelisiniz!")
+                st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
+                show_pie_chart(probs, labels, prediction)
+            else:
+                st.error("❌ Önce modeli eğitmelisiniz!")
     except Exception as e:
         st.error(f"Bir hata oluştu: {e}")
 
