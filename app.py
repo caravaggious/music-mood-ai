@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 # Sayfa yapılandırması
 st.set_page_config(page_title="Müzik Ruh Hali Tahmini", layout="centered")
 st.markdown("""
-    <h1 style='text-align: center; color: #4B8BBE;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
-    <p style='text-align: center; font-size:18px;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
+    <h1 style='text-align: center; color: #000000;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
+    <p style='text-align: center; font-size:18px; color: #000000;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
 """, unsafe_allow_html=True)
 
 # 🎨 Pasta grafik fonksiyonu
@@ -36,7 +36,7 @@ def show_pie_chart(probs, labels, prediction):
 
 # 📺 YouTube linkiyle analiz
 st.markdown("---")
-st.markdown("<h2 style='color:#4B8BBE;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='color:#000000;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
 
 with st.form(key="youtube_form"):
     youtube_link = st.text_input("🎬 Lütfen analiz etmek istediğiniz YouTube video linkini girin:")
