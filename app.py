@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 # Sayfa yapılandırması
 st.set_page_config(page_title="Müzik Ruh Hali Tahmini", layout="centered")
 st.markdown("""
-    <h1 style='text-align: center; color: #000000;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
-    <p style='text-align: center; font-size:18px; color: #000000;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
+    <h1 style='text-align: center; color: black;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
+    <p style='text-align: center; font-size:18px; color: black;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
 """, unsafe_allow_html=True)
 
 # 🎨 Pasta grafik fonksiyonu
@@ -34,9 +34,21 @@ def show_pie_chart(probs, labels, prediction):
     ax.axis('equal')
     st.pyplot(fig)
 
+# Yüzdelik analiz kutucukları
+def show_probability_cards(probs, labels):
+    st.markdown("### 🎯 Sınıf Olasılıkları")
+    cols = st.columns(len(labels))
+    for i, col in enumerate(cols):
+        col.markdown(f"""
+            <div style='background-color:#f0f0f0; padding:15px; border-radius:10px; text-align:center; box-shadow:0 0 10px rgba(0,0,0,0.05);'>
+                <h4 style='color:#333; margin:0'>{labels[i]}</h4>
+                <p style='font-size:20px; font-weight:bold; color:#4B8BBE;'>{probs[i]*100:.1f}%</p>
+            </div>
+        """, unsafe_allow_html=True)
+
 # 📺 YouTube linkiyle analiz
 st.markdown("---")
-st.markdown("<h2 style='color:#000000;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='color:#4B8BBE;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
 
 with st.form(key="youtube_form"):
     youtube_link = st.text_input("🎬 Lütfen analiz etmek istediğiniz YouTube video linkini girin:")
@@ -64,19 +76,21 @@ with st.form(key="youtube_form"):
 
 if submit_button and youtube_link:
     try:
-        wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
-        features = extract_features(wav_path)
+        with st.spinner("🔄 YouTube’dan ses indiriliyor ve analiz ediliyor..."):
+            wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
+            features = extract_features(wav_path)
 
-        if os.path.exists("mood_model.pkl"):
-            model = joblib.load("mood_model.pkl")
-            prediction = model.predict([features])[0]
-            probs = model.predict_proba([features])[0]
-            labels = model.classes_
+            if os.path.exists("mood_model.pkl"):
+                model = joblib.load("mood_model.pkl")
+                prediction = model.predict([features])[0]
+                probs = model.predict_proba([features])[0]
+                labels = model.classes_
 
-            st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
-            show_pie_chart(probs, labels, prediction)
-        else:
-            st.error("❌ Önce modeli eğitmelisiniz!")
+                st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
+                show_probability_cards(probs, labels)
+                show_pie_chart(probs, labels, prediction)
+            else:
+                st.error("❌ Önce modeli eğitmelisiniz!")
     except Exception as e:
         st.error(f"Bir hata oluştu: {e}")
 
@@ -102,6 +116,7 @@ if submit_button and youtube_link:
 #         labels = model.classes_
 
 #         st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
+#         show_probability_cards(probs, labels)
 #         show_pie_chart(probs, labels, prediction)
 #     else:
 #         st.error("❌ Önce modeli eğitmelisiniz!")
