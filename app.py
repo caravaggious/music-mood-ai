@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 # Sayfa yapılandırması
 st.set_page_config(page_title="Müzik Ruh Hali Tahmini", layout="centered")
 st.markdown("""
-    <h1 style='text-align: center; color: #4B8BBE;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
-    <p style='text-align: center; font-size:18px;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
+    <h1 style='text-align: center; color: #6C63FF;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
+    <p style='text-align: center; font-size:18px; color: #444;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
 """, unsafe_allow_html=True)
 
 # 🎨 Pasta grafik fonksiyonu
 def show_pie_chart(probs, labels, prediction):
     fig, ax = plt.subplots(figsize=(6, 6))
-    colors = ['#FFD700', '#FF6F61', '#87CEFA', '#90EE90']
+    colors = ['#FFC75F', '#FF6F91', '#A0E7E5', '#B39CD0']  # Canlı pastel tonları
     explode = [0.07 if p == max(probs) else 0 for p in probs]
 
     wedges, texts, autotexts = ax.pie(
@@ -36,48 +36,50 @@ def show_pie_chart(probs, labels, prediction):
 
 # 📺 YouTube linkiyle analiz
 st.markdown("---")
-st.markdown("<h2 style='color:#4B8BBE;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='color:#6C63FF;'>📺 YouTube Linkiyle Ruh Hali Analizi</h2>", unsafe_allow_html=True)
 
 with st.form(key="youtube_form"):
     youtube_link = st.text_input("🎬 Lütfen analiz etmek istediğiniz YouTube video linkini girin:")
     submit_button = st.form_submit_button(
-        label="Tahmin Et",
+        label="🎧 Tahmin Et",
         help="YouTube'dan ses indirilecek ve ruh hali tahmini yapılacaktır."
     )
+
+    # Buton stili
     st.markdown("""
         <style>
         div.stButton > button:first-child {
-            background-color: #4B8BBE;
+            background-color: #6C63FF;
             color: white;
-            padding: 0.5em 1em;
+            padding: 0.6em 1.3em;
             font-size: 16px;
             font-weight: bold;
             border: none;
-            border-radius: 5px;
-            transition: 0.3s ease-in-out;
+            border-radius: 8px;
+            box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
         }
         div.stButton > button:first-child:hover {
-            background-color: #306998;
+            background-color: #4B47CC;
         }
         </style>
     """, unsafe_allow_html=True)
 
 if submit_button and youtube_link:
     try:
-        with st.spinner("🔄 YouTube’dan ses indiriliyor ve analiz ediliyor..."):
-            wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
-            features = extract_features(wav_path)
+        wav_path = download_youtube_audio(youtube_link, "yt_audio.wav")
+        features = extract_features(wav_path)
 
-            if os.path.exists("mood_model.pkl"):
-                model = joblib.load("mood_model.pkl")
-                prediction = model.predict([features])[0]
-                probs = model.predict_proba([features])[0]
-                labels = model.classes_
+        if os.path.exists("mood_model.pkl"):
+            model = joblib.load("mood_model.pkl")
+            prediction = model.predict([features])[0]
+            probs = model.predict_proba([features])[0]
+            labels = model.classes_
 
-                st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
-                show_pie_chart(probs, labels, prediction)
-            else:
-                st.error("❌ Önce modeli eğitmelisiniz!")
+            st.success(f"🎧 Tahmin edilen ruh hali: **{prediction}**")
+            show_pie_chart(probs, labels, prediction)
+        else:
+            st.error("❌ Önce modeli eğitmelisiniz!")
     except Exception as e:
         st.error(f"Bir hata oluştu: {e}")
 
@@ -106,5 +108,3 @@ if submit_button and youtube_link:
 #         show_pie_chart(probs, labels, prediction)
 #     else:
 #         st.error("❌ Önce modeli eğitmelisiniz!")
-
-
