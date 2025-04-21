@@ -106,26 +106,5 @@ if submit_button and youtube_link:
 #         show_pie_chart(probs, labels, prediction)
 #     else:
 #         st.error("❌ Önce modeli eğitmelisiniz!")
-if st.button("ℹ️ Hakkında"):
-    st.markdown("""
-    **🎵 Müzik Ruh Hali Tahmin Sistemi**  
-    Bu proje, bir müzik parçasının ses özelliklerinden yola çıkarak ruh halini tahmin eden bir yapay zeka uygulamasıdır. Kullanıcılar, yalnızca bir YouTube video linki paylaşarak analiz yaptırabilir. Sistem, videodan sesi otomatik indirir, analiz eder ve şarkının mutlu, üzgün, enerjik veya sakin gibi kategorilerden hangisine ait olduğunu tahmin eder.
 
-    **🚀 Temel Özellikler:**
-    - 🎧 YouTube linkiyle otomatik ses analizi  
-    - 📊 Tahmin sonucu pasta grafik ile görselleştirme  
-    - 🧠 Makine öğrenimi tabanlı model (Random Forest)  
-    - 🌐 Basit ve kullanıcı dostu arayüz (Streamlit ile)
-
-    **🔍 Kullanım Alanları:**
-    - Müzik öneri sistemleri  
-    - Ruh hali bazlı müzik arşivleme  
-    - Duygu analizi araştırmaları  
-    - Kişisel kullanım veya müzik blogları
-
-    **🛠️ Kullanılan Teknolojiler:**
-    - Python, scikit-learn, librosa, yt-dlp, Streamlit  
-    - FFmpeg ile ses dönüştürme  
-    - Model: RandomForestClassifier, 4 sınıfa göre eğitimli
-    """)
 
