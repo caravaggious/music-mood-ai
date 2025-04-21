@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Müzik Ruh Hali Tahmini", layout="centered")
 st.markdown("""
     <h1 style='text-align: center; color: #000000;'>🎵 Müzik Ruh Hali Tahmin Sistemi</h1>
-    <p style='text-align: center; font-size:18px; color: #000000;'>YouTube linki ile müziğin ruh halini tahmin edin.</p>
+    <p style='text-align: center; font-size:18px; color: #000000;'>YouTube’dan Şarkı Seçin, Ruh Halini Öğrenin
+
+</p>
 """, unsafe_allow_html=True)
 
 # 🎨 Pasta grafik fonksiyonu
